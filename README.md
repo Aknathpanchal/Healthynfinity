@@ -15,7 +15,7 @@ To run the logging system locally:
 
 1. **Clone the Repository**:
    ```bash
-   git clone <your-repo-url>
+   git clone <https://github.com/Aknathpanchal/Healthynfinity.git>
    cd <your-repo-name>
 
 

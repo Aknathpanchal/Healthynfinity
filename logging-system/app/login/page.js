@@ -1,6 +1,5 @@
 "use client";
 
-// app/login/page.js
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -11,20 +10,31 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const res = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password }),
-        });
+        try {
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password }),
+            });
 
-        if (res.ok) {
+            if (!res.ok) {
+                // Check if the response is JSON before parsing
+                const errorData = await res.text(); // Get the text response
+                try {
+                    const jsonError = JSON.parse(errorData); // Attempt to parse it
+                    alert(jsonError.message);
+                } catch (jsonError) {
+                    alert('Login failed: ' + errorData); // Fallback to raw text
+                }
+                return; // Early exit on error
+            }
+
             const { token } = await res.json();
             localStorage.setItem('token', token);
             router.push('/logs');
-        } else {
-            // Handle error
-            const errorData = await res.json();
-            alert(errorData.message);
+        } catch (error) {
+            console.error('Fetch error:', error);
+            alert('An error occurred. Please try again later.');
         }
     };
 

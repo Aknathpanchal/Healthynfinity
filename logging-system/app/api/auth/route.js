@@ -28,7 +28,7 @@
 //     });
 
     // Log the login action
-    await logAction(user._id, 'login', user.role);
+//     await logAction(user._id, 'login', user.role);
 
-    return new Response(JSON.stringify({ token }), { status: 200 });
-}
+//     return new Response(JSON.stringify({ token }), { status: 200 });
+// }
